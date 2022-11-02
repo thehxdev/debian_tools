@@ -92,7 +92,8 @@ function qt5ct_kvantum_install() {
 	installit qt5ct qt5-style-plugins breeze qt5-style-kvantum qt5-style-kvantum-themes
 	judge "install qt5ct and kvantum"
 
-	su -c 'echo "QT_QPA_PLATFORMTHEME=qt5ct" >> /etc/environment' root
+	#su -c 'echo "QT_QPA_PLATFORMTHEME=qt5ct" >> /etc/environment' root
+	echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 	judge "enabling qt5ct"
 }
 
