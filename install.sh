@@ -340,12 +340,20 @@ function neovim_configuration() {
 		installit git curl
 		judge "install git curl"
 	fi
+
+	if [[ -e "$HOME/.local/share/nvim" ]]; then
+		rm -rf $HOME/.local/share/nvim/
+		judge "remove Neovim old plugins and data"
+	fi
+
 	git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 	judge "install packer"
 
 	# Make a backup from old configs
-	mv $HOME/.config/nvim $HOME/nvim_backup
-	judge "make backup"
+	if [[ -e "$HOME/.config/nvim" ]]; then
+		mv $HOME/.config/nvim $HOME/nvim_backup
+		judge "make backup"
+	fi
 
 	# install new configuretions
 	git clone --depth 1 https://github.com/hxdevlover/nvimdots.git $HOME/.config/nvim
