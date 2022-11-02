@@ -148,11 +148,11 @@ function yaru_gtk() {
 # Add halifax (Germany) mirror list for better speed
 function halifax_mirrors() {
 	debian_version_check
-	#check_root
+	check_root
 	sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
 	judge "make backup from sources.list"
 	if [[ -s "/etc/apt/sources.list.bak" ]]; then
-		sudo tee -a << EOF > /etc/apt/sources.list
+		sudo tee /etc/apt/sources.list <<EOF
 deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
 deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
 
@@ -162,6 +162,17 @@ deb-src http://security.debian.org/debian-security ${DEBIAN_VERSION_ID}-security
 deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
 deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
 EOF
+
+		#sudo cat << EOF > /etc/apt/sources.list
+#deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
+#deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
+#
+#deb http://security.debian.org/debian-security ${DEBIAN_VERSION_ID}-security main contrib non-free
+#deb-src http://security.debian.org/debian-security ${DEBIAN_VERSION_ID}-security main contrib non-free
+#
+#deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
+#deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
+#EOF
 		judge "update mirrors to halifax"
 	else
 		print_error "can't find backup file for sources.list"
