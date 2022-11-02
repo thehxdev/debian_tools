@@ -292,6 +292,12 @@ function golang_install() {
 function nodejs_install() {
 	if [[ $(uname -m) -eq "x86_64" ]]; then
 		cd $HOME/
+
+		if [[ -e "$HOME/node-v${NODE_VERSION}-linux-x64.tar.xz" ]]
+			rm -rf $HOME/node-v${NODE_VERSION}-linux-x64.tar.xz
+			judge "delete old file"
+		fi
+
 		wget https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz
 		judge "download nodejs"
 
@@ -302,13 +308,13 @@ function nodejs_install() {
 		judge "install nodejs"
 
 		if [[ -e "$HOME/.bashrc" ]]; then
-			echo "export PATH=\"/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-64/bin:\$PATH\"" >> $HOME/.bashrc
+			echo "export PATH=\"/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-x64/bin:\$PATH\"" >> $HOME/.bashrc
 			judge "add nodejs to .bashrc"
 			#source $HOME/.bashrc
 		fi
 
 		if [[ -e "$HOME/.zshrc" ]]; then
-			echo "export PATH=/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-64/bin:\$PATH" >> $HOME/.zshrc
+			echo "export PATH=\"/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-x64/bin:\$PATH\"" >> $HOME/.zshrc
 			judge "add nodejs to .zshrc"
 			#source $HOME/.zshrc
 		fi
