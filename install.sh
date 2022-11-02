@@ -148,11 +148,11 @@ function yaru_gtk() {
 # Add halifax (Germany) mirror list for better speed
 function halifax_mirrors() {
 	debian_version_check
-	check_root
+	#check_root
 	sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
 	judge "make backup from sources.list"
 	if [[ -s "/etc/apt/sources.list.bak" ]]; then
-		sudo cat << EOF > /etc/apt/sources.list
+		sudo tee -a << EOF > /etc/apt/sources.list
 deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
 deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
 
