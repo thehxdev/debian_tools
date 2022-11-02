@@ -35,7 +35,7 @@ function print_error() {
 	echo -e "${ERROR} $1 ${Color_Off}"
 }
 
-fucntion check_root() {
+function check_root() {
 	if [[ ${EUID} -ne 0 ]]; then
 		print_error "You must run the script with root permissions to execute this function."
 		exit 1
