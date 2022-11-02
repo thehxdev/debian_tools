@@ -298,17 +298,17 @@ function nodejs_install() {
 		sudo mkdir -p /usr/local/lib/nodejs >/dev/null 2>&1
 		judge "make nodejs directory"
 
-		sudo tar -xJvf node-v${NODE_VERSION}-linux-x64.tar.xz -C /usr/local/lib/nodejs 
+		sudo tar -xJf node-v${NODE_VERSION}-linux-x64.tar.xz -C /usr/local/lib/nodejs 
 		judge "install nodejs"
 
 		if [[ -e "$HOME/.bashrc" ]]; then
-			echo "export PATH=/usr/local/lib/nodejs/node-${NODE_VERSION}-linux-64/bin:\$PATH" >> $HOME/.bashrc
+			echo "export PATH=\"/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-64/bin:\$PATH\"" >> $HOME/.bashrc
 			judge "add nodejs to .bashrc"
 			#source $HOME/.bashrc
 		fi
 
 		if [[ -e "$HOME/.zshrc" ]]; then
-			echo "export PATH=/usr/local/lib/nodejs/node-${NODE_VERSION}-linux-64/bin:\$PATH" >> $HOME/.zshrc
+			echo "export PATH=/usr/local/lib/nodejs/node-v${NODE_VERSION}-linux-64/bin:\$PATH" >> $HOME/.zshrc
 			judge "add nodejs to .zshrc"
 			#source $HOME/.zshrc
 		fi
