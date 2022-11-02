@@ -92,9 +92,10 @@ function qt5ct_kvantum_install() {
 	installit qt5ct qt5-style-plugins breeze qt5-style-kvantum qt5-style-kvantum-themes
 	judge "install qt5ct and kvantum"
 
-	#su -c 'echo "QT_QPA_PLATFORMTHEME=qt5ct" >> /etc/environment' root
-	echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
-	judge "enabling qt5ct"
+	if ! grep -o "QT_QPA_PLATFORMTHEME" /etc/environment; then
+		echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
+		judge "enabling qt5ct"
+	fi
 }
 
 # install yaru theme for kvantum
@@ -104,7 +105,7 @@ function yaru_kvantum() {
 	fi
 
 	if ! grep -o "QT_QPA_PLATFORMTHEME" /etc/environment; then
-		sudo echo "QT_QPA_PLATFORMTHEME=qt5ct" >> /etc/environment
+		echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 	fi
 
 	if ! command -v git; then
@@ -162,17 +163,6 @@ deb-src http://security.debian.org/debian-security ${DEBIAN_VERSION_ID}-security
 deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
 deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
 EOF
-
-		#sudo cat << EOF > /etc/apt/sources.list
-#deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
-#deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
-#
-#deb http://security.debian.org/debian-security ${DEBIAN_VERSION_ID}-security main contrib non-free
-#deb-src http://security.debian.org/debian-security ${DEBIAN_VERSION_ID}-security main contrib non-free
-#
-#deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
-#deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
-#EOF
 		judge "update mirrors to halifax"
 	else
 		print_error "can't find backup file for sources.list"
@@ -249,7 +239,7 @@ function brave_install() {
 	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 	judge "add brave-browser gpg keys"
 
-	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 	judge "add brave-browser mirrors"
 
 	update_repos
