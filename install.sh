@@ -104,7 +104,7 @@ function yaru_kvantum() {
 		qt5ct_kvantum_install
 	fi
 
-	if ! grep -o "QT_QPA_PLATFORMTHEME" /etc/environment; then
+	if ! grep -q -o "QT_QPA_PLATFORMTHEME" /etc/environment; then
 		echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 	fi
 
@@ -112,8 +112,18 @@ function yaru_kvantum() {
 		installit git curl
 	fi
 
+	if [[ -e "$HOME/kvantum_Yaru_theme" ]]; then
+		rm -rf $HOME/kvantum_Yaru_theme
+		judge "remove old repo"
+	fi
+
 	git clone --depth 1 https://github.com/GabePoel/KvYaru-Colors.git $HOME/kvantum_Yaru_theme >/dev/null 2>&1
 	judge "Clone KvYaru repository"
+
+	if [[ ! -e "$HOME/.config/Kvantum" ]]; then
+		mkdir $HOME/.config/Kvantum/ >/dev/null 2>&1
+		judge "make kvantum directory"
+	fi
 
 	cp -r $HOME/kvantum_Yaru_theme/src/* $HOME/.config/Kvantum/
 	judge "Copy files to Kvantum directory"
