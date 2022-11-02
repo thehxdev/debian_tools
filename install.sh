@@ -293,7 +293,7 @@ function nodejs_install() {
 	if [[ $(uname -m) -eq "x86_64" ]]; then
 		cd $HOME/
 
-		if [[ -e "$HOME/node-v${NODE_VERSION}-linux-x64.tar.xz" ]]
+		if [[ -e "$HOME/node-v${NODE_VERSION}-linux-x64.tar.xz" ]]; then
 			rm -rf $HOME/node-v${NODE_VERSION}-linux-x64.tar.xz
 			judge "delete old file"
 		fi
