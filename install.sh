@@ -35,6 +35,15 @@ function print_error() {
 	echo -e "${ERROR} $1 ${Color_Off}"
 }
 
+fucntion check_root() {
+	if [[ ${EUID} -ne 0 ]]; then
+		print_error "You must run the script with root permissions to execute this function."
+		exit 1
+	else
+		print_ok "root user checked"
+	fi
+}
+
 # check version
 function debian_version_check() {
 	if [[ -e "/etc/debian_version" ]]; then
@@ -138,6 +147,7 @@ function yaru_gtk() {
 # Add halifax (Germany) mirror list for better speed
 function halifax_mirrors() {
 	debian_version_check
+	check_root
 	sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
 	judge "make backup from sources.list"
 	if [[ -s "/etc/apt/sources.list.bak" ]]; then
@@ -253,21 +263,12 @@ function golang_install() {
 			echo 'export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH' >> $HOME/.bashrc
 			judge "add go to .bashrc"
 			#source $HOME/.bashrc
-			if [[ -e "/root/.bashrc" ]]; then 
-				sudo echo 'export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH' >> /root/.bashrc
-				judge "add go to root .bashrc"
-				#sudo source /root/.bashrc
-			fi
 		fi
+
 		if [[ -e "$HOME/.zshrc" ]]; then
 			echo 'export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH' >> $HOME/.zshrc
 			judge "add go to .zshrc"
 			#source $HOME/.zshrc
-			if [[ -e "/root/.zshrc" ]]; then 
-				sudo echo 'export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH' >> /root/.zshrc
-				#sudo source /root/.zshrc
-			judge "add go to root .zshrc"
-			fi
 		fi
 	else
 		print_error "Your CPU architecture is not x86_64 (amd64)"
@@ -290,22 +291,12 @@ function nodejs_install() {
 			echo "export PATH=/usr/local/lib/nodejs/node-${NODE_VERSION}-linux-64/bin:\$PATH" >> $HOME/.bashrc
 			judge "add nodejs to .bashrc"
 			#source $HOME/.bashrc
-			if [[ -e "/root/.bashrc" ]]; then 
-				sudo echo "export PATH=/usr/local/lib/nodejs/node-${NODE_VERSION}-linux-64/bin:\$PATH" >> /root/.bashrc
-				judge "add nodejs to root .bashrc"
-				#sudo source /root/.bashrc
-			fi
 		fi
 
 		if [[ -e "$HOME/.zshrc" ]]; then
 			echo "export PATH=/usr/local/lib/nodejs/node-${NODE_VERSION}-linux-64/bin:\$PATH" >> $HOME/.zshrc
 			judge "add nodejs to .zshrc"
 			#source $HOME/.zshrc
-			if [[ -e "/root/.zshrc" ]]; then 
-				sudo echo "export PATH=/usr/local/lib/nodejs/node-${NODE_VERSION}-linux-64/bin:\$PATH" >> /root/.zshrc
-				#sudo source /root/.zshrc
-			judge "add nodejs to root .zshrc"
-			fi
 		fi
 
 		#if command -v fish; then
@@ -374,22 +365,12 @@ function alacritty_install() {
 		echo "export PATH=\$HOME/.cargo/bin:\$PATH" >> $HOME/.bashrc
 		judge "add cargo to .bashrc"
 		#source $HOME/.bashrc
-		if [[ -e "/root/.bashrc" ]]; then 
-			sudo echo "export PATH=\$HOME/.cargo/bin:\$PATH" >> /root/.bashrc
-			judge "add cargo to root .bashrc"
-			#sudo source /root/.bashrc
-		fi
 	fi
 
 	if [[ -e "$HOME/.zshrc" ]]; then
 		echo "export PATH=\$HOME/.cargo/bin:\$PATH" >> $HOME/.zshrc
 		judge "add cargo to .zshrc"
 		#source $HOME/.zshrc
-		if [[ -e "/root/.zshrc" ]]; then 
-			sudo echo "export PATH=\$HOME/.cargo/bin:\$PATH" >> /root/.zshrc
-			#sudo source /root/.zshrc
-		judge "add cargo to root .zshrc"
-		fi
 	fi
 
 	installit llvm cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3 build-essential
@@ -515,7 +496,7 @@ function main_menu() {
 	echo -e "${Green}12. Install Build Tools${Color_Off}"
 	echo -e "====================  Configurations ============="
 	echo -e "${Green}13. Configure Neovim${Color_Off}"
-	echo -e "${Green}14. Use Halifax (20Gb) Mirrors${Color_Off}"
+	echo -e "${Green}14. Use Halifax (20Gb) Mirrors (Needs Root)${Color_Off}"
 	echo -e "${Yellow}15. Exit${Color_Off}\n"
 
 	read -rp "Enter an Option: " menu_num
