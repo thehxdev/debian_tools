@@ -552,10 +552,40 @@ function fonts_install() {
 	judge "install font-manager font-viewer"
 }
 
+function configure_fonts() {
+	if [[ ! -e "$HOME/.config/fontconfig" ]]; then
+		mkdir $HOME/.config/fontconfig >/dev/null 2>&1
+	else
+		print_ok "fontconfig directory exist"
+	fi
+
+	if [[ -e "$HOME/.config/fontconfig/fonts.conf" ]]; then
+		mv $HOME/.config/fontconfig/fonts.conf $HOME/.config/fontconfig/fonts.conf.bak
+		judge "make backup from old config"
+	fi
+
+	if ! command -v curl; then
+		installit curl
+	fi
+
+	curl -O $HOME/.config/fontconfig/fonts.conf \
+		https://raw.githubusercontent.com/thehxdev/dotfiles/main/fontconfig/fonts.conf
+	judge "Download config file"
+}
+
+function fix_user_sudo() {
+	sudo groupadd wheel && print_ok "created wheel group"
+
+	sudo gpasswd -a $USER wheel
+	judge "add ${USER} to wheel group"
+
+	echo "%wheel   ALL=(ALL:ALL) ALL" | sudo tee -a /etc/sudoers
+	judge "add wheel group to sudoers file"
+}
+
 function main_menu() {
 	clear
-	echo -e '
-    ____       __    _                ______            __    
+	echo -e '____       __    _                ______            __    
    / __ \___  / /_  (_)___  ____     /_  __/___  ____  / /____
   / / / / _ \/ __ \/ / __ \/ __ \     / / / __ \/ __ \/ / ___/
  / /_/ /  __/ /_/ / / /_/ / / / /    / / / /_/ / /_/ / (__  ) 
@@ -582,9 +612,11 @@ function main_menu() {
 	echo -e "${Green}13. Install Build Tools${Color_Off}"
 	echo -e "${Green}14. Install Fonts${Color_Off}"
 	echo -e "====================  Configurations ============="
-	echo -e "${Green}15. Configure Neovim${Color_Off}"
-	echo -e "${Green}16. Use Halifax Mirrors${Color_Off}"
-	echo -e "${Yellow}17. Exit${Color_Off}\n"
+	echo -e "${Green}15. Configure System Fonts${Color_Off}"
+	echo -e "${Green}16. Fix [user is not in sudoers...]${Color_Off}"
+	echo -e "${Green}17. Configure Neovim${Color_Off}"
+	echo -e "${Green}18. Use Halifax Mirrors${Color_Off}"
+	echo -e "${Yellow}19. Exit${Color_Off}\n"
 
 	read -rp "Enter an Option: " menu_num
 	case $menu_num in
@@ -631,13 +663,19 @@ function main_menu() {
 		fonts_install
 		;;
 	15)
+		configure_fonts
+		;;
+	16)
+		fix_user_sudo
+		;;
+	17)
 		neovim_configuration
 		#fonts_install
 		;;
-	16)
+	18)
 		halifax_mirrors
 		;;
-	17)
+	19)
 		exit 0
 		;;
 	*)
