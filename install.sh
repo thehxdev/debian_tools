@@ -543,7 +543,7 @@ function main_menu() {
 	echo -e "${Green}5. Install KVM and Virt-Manager${Color_Off}"
 	echo -e "${Green}6. Install Neovim Stable${Color_Off}"
 	echo -e "${Green}7. Install Kitty${Color_Off}"
-	echo -e "${Green}8. Install Alacritty${Color_Off}"
+	echo -e "${Green}8. Install Alacritty ${Cyan}(From Source)${Color_Off}"
 	echo -e "${Green}9. Install Brave Browser${Color_Off}"
 	echo -e "${Green}10. Install and configure ZSH${Color_Off}"
 	echo -e "${Green}11. Install Golang${Color_Off}"
