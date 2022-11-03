@@ -71,8 +71,7 @@ function update_repos() {
 	judge "update repos"
 }
 
-# Add QT support to XFCE/Gnome
-function qt5ct_kvantum_install() {
+# Add QT support to XFCE/Gnome function qt5ct_kvantum_install() {
 	update_repos
 	installit qt5ct qt5-style-plugins breeze qt5-style-kvantum qt5-style-kvantum-themes
 	judge "install qt5ct and kvantum"
@@ -155,7 +154,7 @@ deb http://ftp.halifax.rwth-aachen.de/debian/ ${VERSION_CODENAME} main non-free 
 deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${VERSION_CODENAME} main non-free contrib
 
 deb http://security.debian.org/debian-security ${VERSION_CODENAME}-security main contrib non-free
-deb-src http://security.debian.org/debian-security ${VERSOIN_CODENAME}-security main contrib non-free
+deb-src http://security.debian.org/debian-security ${VERSION_CODENAME}-security main contrib non-free
 
 deb http://ftp.halifax.rwth-aachen.de/debian/ ${VERSION_CODENAME}-updates main contrib non-free
 deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${VERSION_CODENAME}-updates main contrib non-free
