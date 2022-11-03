@@ -564,12 +564,11 @@ function configure_fonts() {
 		judge "make backup from old config"
 	fi
 
-	if ! command -v curl; then
-		installit curl
+	if ! command -v wget; then
+		installit wget
 	fi
 
-	curl -O $HOME/.config/fontconfig/fonts.conf \
-		https://raw.githubusercontent.com/thehxdev/dotfiles/main/fontconfig/fonts.conf
+	wget -O $HOME/.config/fontconfig/fonts.conf https://raw.githubusercontent.com/thehxdev/dotfiles/main/fontconfig/fonts.conf
 	judge "Download config file"
 }
 
