@@ -408,8 +408,12 @@ function alacritty_install() {
 		judge "install curl wget"
 	fi
 
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-	judge "install rustup"
+	if [[ ! -e "$HOME/.cargo/" ]]; then
+		curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+		judge "install rustup"
+	else
+		print_ok "Rust is installed already"
+	fi
 
 	if [[ -e "$HOME/.bashrc" ]]; then
 		echo "export PATH=\$HOME/.cargo/bin:\$PATH" >> $HOME/.bashrc
