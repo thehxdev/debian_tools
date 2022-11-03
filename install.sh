@@ -21,9 +21,11 @@ USER=$(cat /etc/passwd | grep -E "/home/" | cut -d ":" -f 1)
 HOME="/home/${USER}"
 
 # Versions
-NODE_VERSION="18.12.0"
+#NODE_VERSION="18.12.0"
+NODE_VERSION=$(curl -L https://nodejs.org/en/ | grep "LTS" | grep -Eo "[0-9]{1,3}(\.[0-9]{1,3}){2}" | sed -n "1p")
 NVIM_VERSION="stable"
-GOLANG_VERSION="1.19.2"
+#GOLANG_VERSION="1.19.3"
+GOLANG_VERSION=$(curl -L https://go.dev/dl/ >/dev/null 2>&1 | grep -Eo "go[0-9]{1,2}(\.[0-9]{1,3}){1,2}" | sed -n "1p" | tr -d "go")
 
 # print OK
 function print_ok() {
