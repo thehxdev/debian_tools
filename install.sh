@@ -22,10 +22,8 @@ HOME="/home/${USER}"
 
 # Versions
 #NODE_VERSION="18.12.0"
-NODE_VERSION=$(curl -L https://nodejs.org/en/ >/dev/null 2>&1 | grep "LTS" | grep -Eo "[0-9]{1,3}(\.[0-9]{1,3}){1,2}" | sed -n "1p")
 NVIM_VERSION="stable"
 #GOLANG_VERSION="1.19.3"
-GOLANG_VERSION=$(curl -L https://go.dev/dl/ >/dev/null 2>&1 | grep -Eo "go[0-9]{1,2}(\.[0-9]{1,3}){1,2}" | sed -n "1p" | tr -d "go")
 
 # print OK
 function print_ok() {
@@ -291,6 +289,7 @@ function brave_install() {
 }
 
 function golang_install() {
+	GOLANG_VERSION=$(curl -L https://go.dev/dl/ >/dev/null 2>&1 | grep -Eo "go[0-9]{1,2}(\.[0-9]{1,3}){1,2}" | sed -n "1p" | tr -d "go")
 	if [[ $(uname -m) -eq "x86_64" ]]; then
 		if ! command -v wget; then
 			installit wget
@@ -320,6 +319,7 @@ function golang_install() {
 }
 
 function nodejs_install() {
+	NODE_VERSION=$(curl -L https://nodejs.org/en/ >/dev/null 2>&1 | grep "LTS" | grep -Eo "[0-9]{1,3}(\.[0-9]{1,3}){1,2}" | sed -n "1p")
 	if [[ $(uname -m) -eq "x86_64" ]]; then
 		cd $HOME/
 
