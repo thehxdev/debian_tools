@@ -71,7 +71,8 @@ function update_repos() {
 	judge "update repos"
 }
 
-# Add QT support to XFCE/Gnome function qt5ct_kvantum_install() {
+# Add QT support to XFCE/Gnome
+function qt5ct_kvantum_install() {
 	update_repos
 	installit qt5ct qt5-style-plugins breeze qt5-style-kvantum qt5-style-kvantum-themes
 	judge "install qt5ct and kvantum"
