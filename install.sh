@@ -48,24 +48,7 @@ function check_root() {
 
 # check version
 function debian_version_check() {
-	if [[ -e "/etc/debian_version" ]]; then
-		debian_ver=$(cat /etc/debian_version | grep -oE "^[1-9]{1,3}")
-	fi
-
-	if [[ ${debian_ver} -lt 10 ]]; then
-		print_error "To run this script you need debian 11 or higher."
-		exit 1
-	fi
-
-	if [[ ${debian_ver} -eq 11 ]]; then
-		DEBIAN_VERSION_ID="bullseye"
-	elif [[ ${debian_ver} -eq 12 ]]; then
-		DEBIAN_VERSION_ID="Bookworm"
-	elif [[ ${debian_ver} -eq 13 ]]; then
-		DEBIAN_VERSION_ID="Trixie"
-	elif [[ ${debian_ver} -eq 14 ]]; then
-		DEBIAN_VERSION_ID="Forky"
-	fi
+	source /etc/os-release
 }
 
 function installit() {
@@ -168,14 +151,14 @@ function halifax_mirrors() {
 	judge "make backup from sources.list"
 	if [[ -s "/etc/apt/sources.list.bak" ]]; then
 		sudo tee /etc/apt/sources.list <<EOF
-deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
-deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID} main non-free contrib
+deb http://ftp.halifax.rwth-aachen.de/debian/ ${VERSION_CODENAME} main non-free contrib
+deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${VERSION_CODENAME} main non-free contrib
 
-deb http://security.debian.org/debian-security ${DEBIAN_VERSION_ID}-security main contrib non-free
-deb-src http://security.debian.org/debian-security ${DEBIAN_VERSION_ID}-security main contrib non-free
+deb http://security.debian.org/debian-security ${VERSION_CODENAME}-security main contrib non-free
+deb-src http://security.debian.org/debian-security ${VERSOIN_CODENAME}-security main contrib non-free
 
-deb http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
-deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${DEBIAN_VERSION_ID}-updates main contrib non-free
+deb http://ftp.halifax.rwth-aachen.de/debian/ ${VERSION_CODENAME}-updates main contrib non-free
+deb-src http://ftp.halifax.rwth-aachen.de/debian/ ${VERSION_CODENAME}-updates main contrib non-free
 EOF
 		judge "update mirrors to halifax"
 	else
@@ -495,7 +478,7 @@ function kvm_install {
 function fish_install() {
 	debian_version_check
 
-	if [[ ${debian_ver} -eq 11 ]]; then
+	if [[ ${VERSION_ID} -eq 11 ]]; then
 		echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
 		judge "add fish opensuse repository"
 
