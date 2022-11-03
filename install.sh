@@ -124,8 +124,6 @@ function yaru_gtk() {
 	wget -O $HOME/yaru_gtk_xfce.tar.gz https://github.com/thehxdev/distro_install/raw/main/themes/Yaru-xfce-themes.tar.gz
 	judge "download themes"
 
-	installit papirus-icon-theme
-
 	#mkdir $HOME/yaru_theme >/dev/null 2>&1
 	sudo tar -C $HOME/ -xzf $HOME/yaru_gtk_xfce.tar.gz
 	judge "theme extract"
@@ -139,6 +137,8 @@ function yaru_gtk() {
 		print_error "can't find $HOME/yaru"
 	fi
 	#sudo tar -C /usr/share/themes -xzf $HOME/yaru_gtk_xfce.tar.gz
+	installit papirus-icon-theme
+	judge "install papirus-icon-theme"
 }
 
 # Add halifax (Germany) mirror list for better speed
