@@ -215,9 +215,6 @@ function install_apps() {
 	installit curl wget aria2 uget
 	judge "install curl wget aria2"
 
-	installit kitty fish
-	judge "install kitty fish"
-
 	installit htop rofi tmux
 	judge "install htop rofi tmux"
 
@@ -244,6 +241,54 @@ function install_apps() {
 
 	installit xclip xsel micro
 	judge "install xclip xsel micro"
+}
+
+function kitty_install() {
+	if [[ ! -e "$HOME/.local/bin" ]]; then
+		mkdir $HOME/.local/bin >/dev/null 2>&1
+		judge "make bin directory in .local"
+	fi
+
+	if [[ -e "$HOME/.bashrc" ]]; then
+		echo 'export PATH="$HOME/.local/bin:$PATH"' | tee -a $HOME/.bashrc
+		judge "add .local/bin path to .bashrc"
+	fi
+
+	if [[ -e "$HOME/.zshrc" ]]; then
+		echo 'export PATH="$HOME/.local/bin:$PATH"' | tee -a $HOME/.zshrc
+		judge "add .local/bin path to .zshrc"
+	fi
+
+	if ! command -v wget && ! command -v git; then
+		installit wget git curl
+		judge "install wget git curl"
+	fi
+
+	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
+	judge "install kitty"
+
+	if [[ -e "$HOME/.local/kitty.app/bin/kitty" ]]; then
+		ln -s $HOME/.local/kitty.app/bin/kitty $HOME/.local/bin/
+		judge "make a symbolic link of binary file to .local/bin"
+		sudo ln -s $HOME/.local/kitty.app/bin/kitty /usr/bin/
+		judge "make a symbolic link of binary file to /usr/bin"
+	else
+		print_error "Can't find kitty binary"
+	fi
+
+	if [[ -e "$HOME/.local/share/applications" ]]; then
+		sudo cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+		judge "add .desktop files"
+	else
+		mkdir $HOME/.local/share/applications/ >/dev/null 2>&1
+		sudo cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+		judge "add .desktop files"
+	fi
+
+	sed -i "s|Icon=kitty|Icon=$HOME/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" $HOME/.local/share/applications/kitty*.desktop
+	judge "edit kitty icon"
+	sed -i "s|Exec=kitty|Exec=$HOME/.local/kitty.app/bin/kitty|g" $HOME/.local/share/applications/kitty*.desktop
+	judge "edit kitty binary path in .desktop file"
 }
 
 function brave_install() {
@@ -510,16 +555,17 @@ function main_menu() {
 	echo -e "${Green}4. Install Desktop tools${Color_Off}"
 	echo -e "${Green}5. Install KVM and Virt-Manager${Color_Off}"
 	echo -e "${Green}6. Install Neovim Stable${Color_Off}"
-	echo -e "${Green}7. Install Alacritty${Color_Off}"
-	echo -e "${Green}8. Install Brave Browser${Color_Off}"
-	echo -e "${Green}9. Install and configure ZSH${Color_Off}"
-	echo -e "${Green}10. Install Golang${Color_Off}"
-	echo -e "${Green}11. Install NodeJS LTS${Color_Off}"
-	echo -e "${Green}12. Install Build Tools${Color_Off}"
+	echo -e "${Green}7. Install Kitty${Color_Off}"
+	echo -e "${Green}8. Install Alacritty${Color_Off}"
+	echo -e "${Green}9. Install Brave Browser${Color_Off}"
+	echo -e "${Green}10. Install and configure ZSH${Color_Off}"
+	echo -e "${Green}11. Install Golang${Color_Off}"
+	echo -e "${Green}12. Install NodeJS LTS${Color_Off}"
+	echo -e "${Green}13. Install Build Tools${Color_Off}"
 	echo -e "====================  Configurations ============="
-	echo -e "${Green}13. Configure Neovim${Color_Off}"
-	echo -e "${Green}14. Use Halifax (20Gb) Mirrors (Needs Root)${Color_Off}"
-	echo -e "${Yellow}15. Exit${Color_Off}\n"
+	echo -e "${Green}14. Configure Neovim${Color_Off}"
+	echo -e "${Green}15. Use Halifax (20Gb) Mirrors (Needs Root)${Color_Off}"
+	echo -e "${Yellow}16. Exit${Color_Off}\n"
 
 	read -rp "Enter an Option: " menu_num
 	case $menu_num in
@@ -542,30 +588,33 @@ function main_menu() {
 		neovim_install
 		;;
 	7)
-		alacritty_install
+		kitty_install
 		;;
 	8)
-		brave_install
+		alacritty_install
 		;;
 	9)
-		zsh_install
+		brave_install
 		;;
 	10)
-		golang_install
+		zsh_install
 		;;
 	11)
-		nodejs_install
+		golang_install
 		;;
 	12)
-		build_tools_install
+		nodejs_install
 		;;
 	13)
-		neovim_configuration
+		build_tools_install
 		;;
 	14)
-		halifax_mirrors
+		neovim_configuration
 		;;
 	15)
+		halifax_mirrors
+		;;
+	16)
 		exit 0
 		;;
 	*)
