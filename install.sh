@@ -527,8 +527,14 @@ function fonts_install() {
 		judge "install wget curl git"
 	fi
 
-	wget https://github.com/thehxdev/dotfiles/releases/download/fonts/fonts.tar.xz -O $HOME/fonts.tar.xz
-	judge "Download Fonts"
+	if [[ -e "$HOME/fonts.tar.xz" ]]; then
+		rm -rf $HOME/fonts.tar.xz
+		wget https://github.com/thehxdev/dotfiles/releases/download/fonts/fonts.tar.xz -O $HOME/fonts.tar.xz
+		judge "Download Fonts"
+	else
+		wget https://github.com/thehxdev/dotfiles/releases/download/fonts/fonts.tar.xz -O $HOME/fonts.tar.xz
+		judge "Download Fonts"
+	fi
 
 	tar -xzf $HOME/fonts.tar.xz
 	judge "Extract Fonts"
@@ -574,10 +580,11 @@ function main_menu() {
 	echo -e "${Green}11. Install Golang${Color_Off}"
 	echo -e "${Green}12. Install NodeJS LTS${Color_Off}"
 	echo -e "${Green}13. Install Build Tools${Color_Off}"
+	echo -e "${Green}14. Install Fonts${Color_Off}"
 	echo -e "====================  Configurations ============="
-	echo -e "${Green}14. Configure Neovim${Color_Off}"
-	echo -e "${Green}15. Use Halifax Mirrors${Color_Off}"
-	echo -e "${Yellow}16. Exit${Color_Off}\n"
+	echo -e "${Green}15. Configure Neovim${Color_Off}"
+	echo -e "${Green}16. Use Halifax Mirrors${Color_Off}"
+	echo -e "${Yellow}17. Exit${Color_Off}\n"
 
 	read -rp "Enter an Option: " menu_num
 	case $menu_num in
@@ -621,12 +628,16 @@ function main_menu() {
 		build_tools_install
 		;;
 	14)
-		neovim_configuration
+		fonts_install
 		;;
 	15)
-		halifax_mirrors
+		neovim_configuration
+		#fonts_install
 		;;
 	16)
+		halifax_mirrors
+		;;
+	17)
 		exit 0
 		;;
 	*)
