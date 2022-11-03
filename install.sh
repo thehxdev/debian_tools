@@ -540,7 +540,7 @@ function main_menu() {
 	echo -e "${Green}3. Install Yaru Theme (GTK)${Color_Off}"
 	echo -e "====================  Install Apps  =============="
 	echo -e "${Green}4. Install Desktop tools${Color_Off}"
-	echo -e "${Green}5. Install KVM and Virt-Manager${Color_Off}"
+	echo -e "${Green}5. Install KVM/QEMU and Virt-Manager${Color_Off}"
 	echo -e "${Green}6. Install Neovim Stable${Color_Off}"
 	echo -e "${Green}7. Install Kitty${Color_Off}"
 	echo -e "${Green}8. Install Alacritty ${Cyan}(From Source)${Color_Off}"
