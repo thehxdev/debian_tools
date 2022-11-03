@@ -521,6 +521,31 @@ function build_tools_install() {
 	judge "install llvm build-essential"
 }
 
+function fonts_install() {
+	if ! command -v wget && ! command -v curl; then
+		installit wget curl git
+		judge "install wget curl git"
+	fi
+
+	wget https://github.com/thehxdev/dotfiles/releases/download/fonts/fonts.tar.xz -O $HOME/fonts.tar.xz
+	judge "Download Fonts"
+
+	tar -xzf $HOME/fonts.tar.xz
+	judge "Extract Fonts"
+
+	if [[ ! -e "$HOME/.local/share/fonts" ]]; then
+		mkdir $HOME/.local/share/fonts
+	else 
+		print_ok "fonts directory exist"
+	fi
+
+	cp -r $HOME/fonts/* $HOME/.local/share/fonts/
+	judge "Install Fonts"
+
+	installit font-manager font-viewer
+	judge "install font-manager font-viewer"
+}
+
 function main_menu() {
 	clear
 	echo -e '
