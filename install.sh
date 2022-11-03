@@ -17,8 +17,8 @@ ERROR="${Red}[ERROR]"
 SLEEP="sleep 1"
 
 #USER=$(id -u -n)
-USER=$(cat /etc/passwd | grep -E "/home/" | cut -d ":" -f 1)
-HOME="/home/${USER}"
+#USER=$(cat /etc/passwd | grep -E "/home/" | cut -d ":" -f 1)
+#HOME="/home/${USER}"
 
 # Versions
 #NODE_VERSION="18.12.0"
