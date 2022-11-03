@@ -536,7 +536,7 @@ function fonts_install() {
 		judge "Download Fonts"
 	fi
 
-	tar -xzf $HOME/fonts.tar.xz
+	tar -xf $HOME/fonts.tar.xz
 	judge "Extract Fonts"
 
 	if [[ ! -e "$HOME/.local/share/fonts" ]]; then
