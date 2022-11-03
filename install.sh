@@ -564,7 +564,7 @@ function main_menu() {
 	echo -e "${Green}13. Install Build Tools${Color_Off}"
 	echo -e "====================  Configurations ============="
 	echo -e "${Green}14. Configure Neovim${Color_Off}"
-	echo -e "${Green}15. Use Halifax (20Gb) Mirrors (Needs Root)${Color_Off}"
+	echo -e "${Green}15. Use Halifax Mirrors${Color_Off}"
 	echo -e "${Yellow}16. Exit${Color_Off}\n"
 
 	read -rp "Enter an Option: " menu_num
