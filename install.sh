@@ -183,8 +183,8 @@ alias nv="nvim"
 alias vim="nvim"
 alias vi="nvim"
 alias tm="tmux"
-alias proxythis="proxychains -q -f /etc/proxychains4.conf"
-alias sproxythis="sudo proxychains -q -f /etc/proxychains4.conf"
+alias pt="proxychains -q -f /etc/proxychains4.conf"
+alias spt="sudo proxychains -q -f /etc/proxychains4.conf"
 EOF
 	judge "adding data to .zshrc"
 	#source $HOME/.zshrc
@@ -202,10 +202,10 @@ function install_apps() {
 	installit breeze-cursor-theme
 	judge "install breeze-cursor-theme"
 
-	installit exfat-fuse exfat-utils
+	installit exfat-fuse
 	judge "install exfat utils"
 
-	installit ripgrep fd
+	installit ripgrep fd-find
 	judge "install ripgrep fd-find"
 
 	installit bleachbit galculator viewnior flameshot
