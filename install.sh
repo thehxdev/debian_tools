@@ -218,7 +218,7 @@ function install_apps() {
 	judge "install okular jcal"
 	
 	installit proxychains4 yt-dlp openvpn openconnect wireguard wireguard-tools
-	judge "install proxychains4 yt-dlp openvpn openconnect wireguard (VPN Tools and YT Downloader)"
+	judge "install proxychains4 openvpn openconnect wireguard (VPN Tools)"
 
 	installit xclip xsel micro
 	judge "install xclip xsel micro"
