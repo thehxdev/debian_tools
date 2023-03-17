@@ -141,6 +141,23 @@ function yaru_gtk() {
 	judge "install papirus-icon-theme"
 }
 
+function kali_themes {
+    if [[ ! -e "~/.themes" ]]; then
+        mkdir $HOME/.themes
+    fi
+
+    if ! command -v git; then
+        installit git
+        judge "Install git"
+    fi
+
+    git clone https://gitlab.com/kalilinux/packages/kali-themes.git
+    judge "Clone kali-themes git repository"
+
+    cp -r ./kali-themes/share/themes/* $HOME/.themes
+    judge "Install Kali-themes GTK"
+}
+
 # Add halifax (Germany) mirror list for better speed
 function halifax_mirrors() {
 	debian_version_check
@@ -599,24 +616,25 @@ function main_menu() {
 	echo -e "${Green}1. Add Qt Support to XFCE/Gnome${Color_Off}"
 	echo -e "${Green}2. Install Yaru Theme (Qt/Kvantum)${Color_Off}"
 	echo -e "${Green}3. Install Yaru Theme (GTK)${Color_Off}"
+	echo -e "${Green}4. Install Kali Themes (GTK)${Color_Off}"
 	echo -e "====================  Install Apps  =============="
-	echo -e "${Green}4. Install Desktop tools${Color_Off}"
-	echo -e "${Green}5. Install KVM/QEMU and Virt-Manager${Color_Off}"
-	echo -e "${Green}6. Install Neovim Stable${Color_Off}"
-	echo -e "${Green}7. Install Kitty${Color_Off}"
-	echo -e "${Green}8. Install Alacritty ${Cyan}(From Source)${Color_Off}"
-	echo -e "${Green}9. Install Brave Browser${Color_Off}"
-	echo -e "${Green}10. Install and configure ZSH${Color_Off}"
-	echo -e "${Green}11. Install Golang${Color_Off}"
-	echo -e "${Green}12. Install NodeJS LTS${Color_Off}"
-	echo -e "${Green}13. Install Build Tools${Color_Off}"
-	echo -e "${Green}14. Install Fonts${Color_Off}"
+	echo -e "${Green}5. Install Desktop tools${Color_Off}"
+	echo -e "${Green}6. Install KVM/QEMU and Virt-Manager${Color_Off}"
+	echo -e "${Green}7. Install Neovim Stable${Color_Off}"
+	echo -e "${Green}8. Install Kitty${Color_Off}"
+	echo -e "${Green}9. Install Alacritty ${Cyan}(From Source)${Color_Off}"
+	echo -e "${Green}10. Install Brave Browser${Color_Off}"
+	echo -e "${Green}11. Install and configure ZSH${Color_Off}"
+	echo -e "${Green}12. Install Golang${Color_Off}"
+	echo -e "${Green}13. Install NodeJS LTS${Color_Off}"
+	echo -e "${Green}14. Install Build Tools${Color_Off}"
+	echo -e "${Green}15. Install Fonts${Color_Off}"
 	echo -e "====================  Configurations ============="
-	echo -e "${Green}15. Configure System Fonts${Color_Off}"
-	echo -e "${Green}16. Fix [user is not in sudoers...]${Color_Off}"
-	echo -e "${Green}17. Configure Neovim${Color_Off}"
-	echo -e "${Green}18. Use Halifax Mirrors${Color_Off}"
-	echo -e "${Yellow}19. Exit${Color_Off}\n"
+	echo -e "${Green}16. Configure System Fonts${Color_Off}"
+	echo -e "${Green}17. Fix [user is not in sudoers...]${Color_Off}"
+	echo -e "${Green}18. Configure Neovim${Color_Off}"
+	echo -e "${Green}19. Use Halifax Mirrors${Color_Off}"
+	echo -e "${Yellow}20. Exit${Color_Off}\n"
 
 	read -rp "Enter an Option: " menu_num
 	case $menu_num in
@@ -629,53 +647,56 @@ function main_menu() {
 	3)
 		yaru_gtk
 		;;
-	4) 
+    4)
+        kali_themes
+        ;;
+	5) 
 		install_apps
 		;;
-	5)
+	6)
 		kvm_install
 		;;
-	6)
+	7)
 		neovim_install
 		;;
-	7)
+	8)
 		kitty_install
 		;;
-	8)
+	9)
 		alacritty_install
 		;;
-	9)
+	10)
 		brave_install
 		;;
-	10)
+	11)
 		zsh_install
 		;;
-	11)
+	12)
 		golang_install
 		;;
-	12)
+	13)
 		nodejs_install
 		;;
-	13)
+	14)
 		build_tools_install
 		;;
-	14)
+	15)
 		fonts_install
 		;;
-	15)
+	16)
 		configure_fonts
 		;;
-	16)
+	17)
 		fix_user_sudo
 		;;
-	17)
+	18)
 		neovim_configuration
 		#fonts_install
 		;;
-	18)
+	19)
 		halifax_mirrors
 		;;
-	19)
+	20)
 		exit 0
 		;;
 	*)
