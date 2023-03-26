@@ -546,10 +546,10 @@ function fonts_install() {
 
 	if [[ -e "$HOME/fonts.tar.xz" ]]; then
 		rm -rf $HOME/fonts.tar.xz
-		wget https://github.com/thehxdev/dotfiles/releases/download/fonts/fonts.tar.xz -O $HOME/fonts.tar.xz
+		wget https://github.com/thehxdev/dotfiles/releases/download/fontsv2/fonts.tar.xz -O $HOME/fonts.tar.xz
 		judge "Download Fonts"
 	else
-		wget https://github.com/thehxdev/dotfiles/releases/download/fonts/fonts.tar.xz -O $HOME/fonts.tar.xz
+		wget https://github.com/thehxdev/dotfiles/releases/download/fontsv2/fonts.tar.xz -O $HOME/fonts.tar.xz
 		judge "Download Fonts"
 	fi
 
