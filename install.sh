@@ -151,7 +151,7 @@ function kali_themes {
         judge "Install git"
     fi
 
-    git clone https://gitlab.com/kalilinux/packages/kali-themes.git
+    git clone --depth 1 --branch master https://gitlab.com/kalilinux/packages/kali-themes.git
     judge "Clone kali-themes git repository"
 
     cp -r ./kali-themes/share/themes/* $HOME/.themes
